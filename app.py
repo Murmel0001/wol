@@ -18,6 +18,10 @@ def send_wol():
         s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         s.sendto(data, (TARGET_IP, 9))  # Ziel-IP und Port 9 für WoL-Paket
 
+@app.route('/')
+def home():
+    return "Flask is running!"
+
 @app.route('/wake', methods=['GET'])
 def wake():
     try:
