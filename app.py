@@ -1,26 +1,28 @@
-from flask import Flask, request
+from flask import Flask
 import socket
 
 app = Flask(__name__)
 
-def send_wol(mac_address):
-    mac_address = mac_address.replace(":", "").replace("-", "")
+# MAC-Adresse und Ziel-IP-Adresse fest im Code definiert
+MAC_ADDRESS = "BC:FC:E7:1A:CC:6F"
+TARGET_IP = "192.168.10.11"
+
+def send_wol():
+    mac_address = MAC_ADDRESS.replace(":", "").replace("-", "")
     if len(mac_address) != 12:
         raise ValueError("MAC address format is invalid")
 
+    # Wake-on-LAN-Paket vorbereiten
     data = bytes.fromhex("FF" * 6 + mac_address * 16)
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
         s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        s.sendto(data, ("<broadcast>", 9))
+        s.sendto(data, (TARGET_IP, 9))  # Ziel-IP und Port 9 für WoL-Paket
 
 @app.route('/wake', methods=['GET'])
 def wake():
-    mac = request.args.get('mac')
-    if not mac:
-        return "MAC address missing, use /wake?mac=00:11:22:33:44:55", 400
     try:
-        send_wol(mac)
-        return f"WOL packet sent to {mac}", 200
+        send_wol()
+        return f"WOL packet sent to {MAC_ADDRESS} at IP {TARGET_IP}", 200
     except Exception as e:
         return f"Error: {str(e)}", 500
 
