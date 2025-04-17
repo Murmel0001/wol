@@ -4,7 +4,8 @@ services:
   wol-server:
     build: .
     ports:
-      - "8888:8888"               # Portweiterleitung von Container zu Host (für HTTP-Anfragen)
+      - "8888:8888"
+      - "9:9"                     # Portweiterleitung von Container zu Host (für HTTP-Anfragen)
     networks:
       - wol_network               # Netzwerkkonfiguration für den Container
     restart: always
