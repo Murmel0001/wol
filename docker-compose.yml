@@ -1,8 +1,16 @@
-version: '3'
+version: '3.8'
 
 services:
   wol-server:
     build: .
     ports:
-      - "8888:8888"
-    network_mode: "host"
+      - "8888:8888"               # Portweiterleitung von Container zu Host (für HTTP-Anfragen)
+    networks:
+      - wol_network               # Netzwerkkonfiguration für den Container
+    restart: always
+    environment:
+      - FLASK_ENV=development     # Optional: Für Flask-Entwicklungsmodus
+
+networks:
+  wol_network:
+    driver: bridge                 # Erstellen eines benutzerdefinierten Netzwerks
