@@ -20,15 +20,14 @@ def send_wol():
 
 @app.route('/')
 def home():
-    return "Flask is running!"
-
-@app.route('/wake', methods=['GET'])
-def wake():
-    try:
-        send_wol()
-        return f"WOL packet sent to {MAC_ADDRESS} at IP {TARGET_IP}", 200
-    except Exception as e:
-        return f"Error: {str(e)}", 500
+    return "Flask is running and WOL packet has been sent!"
 
 if __name__ == '__main__':
+    # Wake-on-LAN direkt beim Start ausführen
+    try:
+        send_wol()
+        print(f"WOL packet sent to {MAC_ADDRESS} at IP {TARGET_IP}")
+    except Exception as e:
+        print(f"Error: {str(e)}")
+    
     app.run(host='0.0.0.0', port=8888)
