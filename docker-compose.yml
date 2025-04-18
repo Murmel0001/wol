@@ -3,9 +3,13 @@ version: '3.9'
 services:
   wol-app:
     build: .
-    ports:
-      - "5000:5000"
     restart: unless-stopped
-    network_mode: host  # wichtig, damit das Magic Packet per Broadcast rausgeht
-    environment:
-      - PYTHONUNBUFFERED=1
+    env_file: .env
+    network_mode: host  # damit WOL über Broadcast funktioniert
+    cap_drop:
+      - ALL              # Alle Berechtigungen entfernen
+    cap_add:
+      - NET_RAW          # Nur zum Senden von Magic Packets
+    read_only: true      # Container-Dateisystem schreibgeschützt
+    tmpfs:
+      - /tmp             # Nur temporärer Speicher erlaubt
