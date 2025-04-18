@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Countdown</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-size: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="countdown">In 5 Sekunden neu laden…</div>
+
+  <script>
+    fetch("/wol"); // WOL-Paket senden
+
+    let seconds = 5;
+    const countdownEl = document.getElementById("countdown");
+
+    const interval = setInterval(() => {
+      seconds--;
+      if (seconds > 0) {
+        countdownEl.textContent = `In ${seconds} Sekunden neu laden…`;
+      } else {
+        clearInterval(interval);
+        location.reload();
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

@@ -1,17 +1,11 @@
-version: '3.8'
+version: '3.9'
 
 services:
-  wol-server:
+  wol-app:
     build: .
     ports:
-      - "8888:8888"
-      - "9:9"                     # Portweiterleitung von Container zu Host (für HTTP-Anfragen)
-    networks:
-      - wol_network               # Netzwerkkonfiguration für den Container
-    restart: always
+      - "5000:5000"
+    restart: unless-stopped
+    network_mode: host  # wichtig, damit das Magic Packet per Broadcast rausgeht
     environment:
-      - FLASK_ENV=development     # Optional: Für Flask-Entwicklungsmodus
-
-networks:
-  wol_network:
-    driver: bridge                 # Erstellen eines benutzerdefinierten Netzwerks
+      - PYTHONUNBUFFERED=1
