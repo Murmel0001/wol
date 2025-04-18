@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__, template_folder='templates')
 
-MAC_ADDRESS = os.environ.get("MAC_ADDRESS", "")
+MAC_ADDRESS = "BC:FC:E7:1A:CC:6F"
 
 def send_wol(mac):
     addr_byte = bytes.fromhex(mac.replace(':', '').replace('-', ''))

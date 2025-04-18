@@ -4,7 +4,6 @@ services:
   wol-app:
     build: .
     restart: unless-stopped
-    env_file: .env
     network_mode: host  # damit WOL über Broadcast funktioniert
     cap_drop:
       - ALL              # Alle Berechtigungen entfernen
