@@ -1,9 +1,10 @@
 from flask import Flask, render_template
 import socket
+import os
 
 app = Flask(__name__, template_folder='templates')
 
-MAC_ADDRESS = "BC:FC:E7:1A:CC:6F"  # Deine MAC-Adresse hier
+MAC_ADDRESS = os.environ.get("MAC_ADDRESS", "")
 
 def send_wol(mac):
     addr_byte = bytes.fromhex(mac.replace(':', '').replace('-', ''))
